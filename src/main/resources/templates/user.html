@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/css/bootstrap.min.css"
+          integrity="sha512-T584yQ/tdRR5QwOpfvDfVQUidzfgc2339Lc8uBDtcp/wYu80d7jwBgAxbyMh0a9YM9F8N3tdErpFI8iaGx6x5g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+            integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.1/js/bootstrap.min.js"
+            integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>User</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0" th:object="${user}">
+                <li class="nav-item">
+                    <a class="nav-link active" th:utext="${user.getName()}">NamePlaceHolder</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active">with roles:</a>
+                </li>
+                <li class="nav-item">
+                    <a th:each="role : ${user.getRoles()}">
+                        <span class="nav-link active p=0"
+                              th:text="${role.getRole()}">with roles: Roles_Placeholder</span>
+                    </a>
+                </li>
+            </ul>
+            <a class="nav-link text-secondary" href="/logout">Logout</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid min-vh-100 bg-light pt-3">
+
+    <div class="row">
+
+        <nav class="col-md-2 d-none d-md-block sidebar p-0 bg-white min-vh-100 ">
+            <div class="sidebar-sticky">
+                <ul class="nav nav-pills flex-column">
+
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <li class="nav-item">
+                            <a href="/admin" class="nav-link link-dark" aria-current="page">
+                                <svg class="bi me-2" width="16" height="16">
+                                    <use xlink:href="#home"></use>
+                                </svg>
+                                Admin
+                            </a>
+                        </li>
+                    </div>
+
+                    <li>
+                        <a href="/user" class="nav-link active">
+                            <svg class="bi me-2" width="16" height="16">
+                                <use xlink:href="#speedometer2"></use>
+                            </svg>
+                            User
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+
+        <div class="col-10">
+            <h1>User panel</h1>
+            <div class="bg-light border-top border-start p-2" id="users" role="tabpanel" aria-labelledby="users-tab">
+                <h4>About user</h4>
+            </div>
+            <div class="table-responsive bg-white p-3 pt-1 pb-4 border-bottom border-start">
+                <table class="table table-striped">
+                    <hr>
+                    <tr>
+                        <th width="100">ID</th>
+                        <th width="100">Name</th>
+                        <th width="100">Password</th>
+                        <th width="100">Age</th>
+                        <th width="100">Roles</th>
+                    </tr>
+                    <tr>
+                        <td th:utext="${user.getId()}">ID</td>
+                        <td th:utext="${user.getName()}">Name</td>
+                        <td th:utext="${user.getPassword()}">Password</td>
+                        <td th:utext="${user.getAge()}">Age</td>
+                        <td>
+                            <p th:each="role : ${user.getRoles()}">
+                                <span th:text="${role.getRole()}">Role</span>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
