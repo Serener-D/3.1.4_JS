@@ -34,20 +34,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void create(User user, Long[] roleIds) {
+    public User create(User user, Long[] roleIds) {
         user.setRoles(roleDao.findRolesByIds(roleIds));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.create(user);
         log.info("Пользователь с именем={} сохранен", user.getName());
+        return user;
     }
 
     @Override
     @Transactional
-    public void update(User user, Long[] roleIds) {
+    public User update(User user, Long[] roleIds) {
         user.setRoles(roleDao.findRolesByIds(roleIds));
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.update(user);
         log.info("Пользователь с id={} обновлен", user.getId());
+        return user;
     }
 
     @Override
