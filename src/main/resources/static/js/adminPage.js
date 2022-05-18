@@ -79,8 +79,8 @@ const populateModals = () => {
 populateModals()
 
 //Creating new User
-const createUser = () => {
-    fetch('http://localhost:8080/api/users', {
+const createUser = (roleIds) => {
+    fetch('http://localhost:8080/api/users?roleIds=' + roleIds, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -89,7 +89,6 @@ const createUser = () => {
             name: document.querySelector("#name").value,
             age: document.querySelector("#age").value,
             password: document.querySelector("#password").value,
-            roles: [{role: document.querySelector("#roles").value}]
 
         })
     })
@@ -102,8 +101,8 @@ const createUser = () => {
 };
 
 // Patching existing User
-const patchUser = (id) => {
-    fetch('http://localhost:8080/api/users/' + id, {
+const patchUser = (roleIds) => {
+    fetch('http://localhost:8080/api/users/' + roleIds, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -112,7 +111,6 @@ const patchUser = (id) => {
             name: document.querySelector("#namePatch").value,
             age: document.querySelector("#agePatch").value,
             password: document.querySelector("#passwordPatch").value,
-            roles: [{role: document.querySelector("#rolePatch").value}]
         })
     })
         .then(response => {
@@ -144,7 +142,8 @@ const deleteUser = (id) => {
 let createForm = document.querySelector('#addUserForm');
 createForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    createUser()
+    let ids = Array.from(document.getElementById("roles").options).filter(option => option.selected).map(option => option.value)
+    createUser(ids)
     createForm.reset();
 });
 
@@ -152,7 +151,8 @@ createForm.addEventListener('submit', function (e) {
 let editForm = document.querySelector('#editUserForm');
 editForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    patchUser(document.querySelector("#idPatch").value)
+    let ids = Array.from(document.getElementById("rolesPatch").options).filter(option => option.selected).map(option => option.value)
+    patchUser(ids)
     editModal.hide();
     editForm.reset();
 });
