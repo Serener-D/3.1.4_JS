@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/users")
 public class UserRestController {
 
     private final UserService userService;
@@ -32,7 +32,7 @@ public class UserRestController {
         this.assembler = assembler;
     }
 
-    @GetMapping("/users")
+    @GetMapping
     public CollectionModel<EntityModel<User>> all() {
 
         List<User> users = userService.getAll();
@@ -40,7 +40,7 @@ public class UserRestController {
         return assembler.toCollectionModel(users);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public EntityModel<User> one(@PathVariable Long id) {
 
         User user = userService.getUserWithRolesById(id);
@@ -48,7 +48,7 @@ public class UserRestController {
         return assembler.toModel(user);
     }
 
-    @PostMapping("/users")
+    @PostMapping
     ResponseEntity<?> create(@RequestBody User user, @RequestParam Long[] roleIds) {
 
         EntityModel<User> entityModel = assembler.toModel(userService.create(user, roleIds));
@@ -58,7 +58,7 @@ public class UserRestController {
                 .body(entityModel);
     }
 
-    @PatchMapping("/users/{id}")
+    @PatchMapping("/{id}")
     ResponseEntity<?> replaceEmployee(@RequestBody User user, @PathVariable Long[] id) {
 
         User updatedEmployee = userService.update(user, id);
@@ -70,7 +70,7 @@ public class UserRestController {
                 .body(entityModel);
     }
 
-    @DeleteMapping("/users/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
         userService.delete(id);
 
