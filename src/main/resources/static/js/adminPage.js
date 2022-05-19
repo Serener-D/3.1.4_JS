@@ -1,10 +1,7 @@
 // Fetching user Data for header
 fetch('http://localhost:8080/user/json')
     .then(response => {
-        return response.json();
-    })
-    .then(user => {
-
+        response.json().then(user => {
         let roles = "";
         for (const role of user.roles) {
             roles += role.role;
@@ -13,6 +10,7 @@ fetch('http://localhost:8080/user/json')
 
         document.querySelector("#headerName").text = user.name;
         document.querySelector("#headerRole").text = roles;
+        })
     })
 
 //Creating table with Users
