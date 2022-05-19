@@ -5,13 +5,13 @@ const getRoles = () => {
             return response.json();
         })
         .then(roles => {
+            let content = "";
+            for (let j = 0; j < roles.length; j++) {
+                content += "<option value=" + roles[j].id + ">" + roles[j].role + "</option>";
+            }
             let rolesSelections = document.querySelectorAll("#rolesCreate, #rolesPatch, #rolesDelete")
             for (let i = 0; i < rolesSelections.length; i++) {
-                let temp = "";
-                for (let j = 0; j < roles.length; j++) {
-                    temp += "<option value=" + roles[j].id + ">" + roles[j].role + "</option>";
-                }
-                rolesSelections[i].innerHTML = temp;
+                rolesSelections[i].innerHTML = content;
             }
         })
 }
