@@ -103,7 +103,7 @@ const createUser = (roleIds) => {
 
 // Patching existing User
 const patchUser = (roleIds) => {
-    fetch('http://localhost:8080/api/users/' + roleIds, {
+    fetch('http://localhost:8080/api/users?roleIds=' + roleIds, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',

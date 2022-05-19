@@ -40,8 +40,8 @@ public class UserRestController {
         return ResponseEntity.ok().body(userService.create(user, roleIds));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<User> patch(@RequestBody User user, @PathVariable Long[] roleIds) {
+    @PatchMapping
+    public ResponseEntity<User> patch(@RequestBody User user, @RequestParam Long[] roleIds) {
         return ResponseEntity.ok().body(userService.update(user, roleIds));
     }
 
