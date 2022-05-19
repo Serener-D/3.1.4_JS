@@ -26,12 +26,12 @@ public class UserRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> all() {
+    public ResponseEntity<List<User>> getAll() {
         return ResponseEntity.ok().body(userService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> one(@PathVariable Long id) {
+    public ResponseEntity<User> get(@PathVariable Long id) {
         return ResponseEntity.ok().body(userService.getUserWithRolesById(id));
     }
 
@@ -41,12 +41,13 @@ public class UserRestController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<User> replaceEmployee(@RequestBody User user, @PathVariable Long[] roleIds) {
+    public ResponseEntity<User> patch(@RequestBody User user, @PathVariable Long[] roleIds) {
         return ResponseEntity.ok().body(userService.update(user, roleIds));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<User> delete(@PathVariable(name = "id") Long id) {
+        userService.delete(id);
         return ResponseEntity.ok().build();
     }
 }
