@@ -23,8 +23,8 @@ const createTable = () => {
                         } else {
                             temp += "<td>" + "No role" + "</td>";
                         }
-                        temp += "<td> <a type=\"button\" href='http://localhost:8080/api/users/" + user.id + "' class=\"btn btn-info text-white\" id='editButton' data-bs-toggle=\"modal\" data-bs-target=\"#editModal\">Edit</a></td>";
-                        temp += "<td> <a type=\"button\" href='http://localhost:8080/api/users/" + user.id + "' class=\"btn btn-danger\" id='deleteButton' data-bs-toggle=\"modal\" data-bs-target=\"#deleteModal\">Delete</a></td>";
+                        temp += "<td> <a type=\"button\" data-id=user.id class=\"btn btn-info text-white\" id='editButton' data-bs-toggle=\"modal\" data-bs-target=\"#editModal\">Edit</a></td>";
+                        temp += "<td> <a type=\"button\" data-id=user.id class=\"btn btn-danger\" id='deleteButton' data-bs-toggle=\"modal\" data-bs-target=\"#deleteModal\">Delete</a></td>";
                     })
                     document.querySelector("#userTableContent").innerHTML = temp;
                 }
@@ -40,8 +40,8 @@ const populateModals = () => {
         for (let i = 0; i < editButtons.length; i++) {
             editButtons[i].addEventListener('click', function (event) {
                 // event.preventDefault();
-                const href = editButtons[i].getAttribute('href')
-                fetch(href)
+                const userId = editButtons[i].getAttribute('data-id')
+                fetch('http://localhost:8080/api/users/' + userId)
                     .then(response => {
                         return response.json();
                     })
