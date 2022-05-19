@@ -1,19 +1,4 @@
-// Fetching user Data for header
-fetch('http://localhost:8080/user/json')
-    .then(response => {
-        response.json().then(user => {
-        let roles = "";
-        for (const role of user.roles) {
-            roles += role.role;
-            roles += " ";
-        }
-
-        document.querySelector("#headerName").text = user.name;
-        document.querySelector("#headerRole").text = roles;
-        })
-    })
-
-//Creating table with Users
+// Creating table with Users
 const createTable = () => {
     fetch('http://localhost:8080/api/users')
         .then(response => {
@@ -48,7 +33,7 @@ const createTable = () => {
 }
 createTable()
 
-//Populating Edit and Delete modal windows
+// Populating Edit and Delete modal windows
 const populateModals = () => {
     setTimeout(() => {
         let editButtons = document.querySelectorAll("#editButton, #deleteButton")
@@ -76,7 +61,7 @@ const populateModals = () => {
 };
 populateModals()
 
-//Creating new User
+// Creating new User
 const createUser = (roleIds) => {
     fetch('http://localhost:8080/api/users?roleIds=' + roleIds, {
         method: 'POST',
@@ -136,7 +121,7 @@ const deleteUser = (id) => {
 };
 
 
-//Event listener for submitting Create User form
+// Event listener for submitting Create User form
 let createForm = document.querySelector('#addUserForm');
 createForm.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -155,7 +140,7 @@ editForm.addEventListener('submit', function (e) {
     editForm.reset();
 });
 
-//Event listener for submitting Delete User form
+// Event listener for submitting Delete User form
 let deleteForm = document.querySelector('#deleteUserForm');
 deleteForm.addEventListener('submit', function (e) {
     e.preventDefault();

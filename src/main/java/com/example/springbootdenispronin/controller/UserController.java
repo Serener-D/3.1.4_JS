@@ -25,7 +25,7 @@ public class UserController {
         return "user";
     }
 
-    @GetMapping("/json")
+    @GetMapping("/authenticated")
     @ResponseBody
     public ResponseEntity<User> edit(Principal principal) {
         return ResponseEntity.ok().body(userService.showByName(principal.getName()));
