@@ -7,13 +7,11 @@ const getRoles = () => {
         .then(roles => {
             let rolesSelections = document.querySelectorAll("#rolesCreate, #rolesPatch, #rolesDelete")
             for (let i = 0; i < rolesSelections.length; i++) {
+                let temp = "";
                 for (let j = 0; j < roles.length; j++) {
-                    rolesSelections[i].options.text = roles[j].role
-                    rolesSelections[i].options.value = roles[j].id
-                    rolesSelections[i].size = roles.length
-
-                    console.log(rolesSelections[i].options)
+                    temp += "<option value=" + roles[j].id + ">" + roles[j].role + "</option>";
                 }
+                rolesSelections[i].innerHTML = temp;
             }
         })
 }
@@ -145,7 +143,7 @@ const deleteUser = (id) => {
 let createForm = document.querySelector('#addUserForm');
 createForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    let ids = Array.from(document.getElementById("roles").options).filter(option => option.selected).map(option => option.value)
+    let ids = Array.from(document.getElementById("rolesCreate").options).filter(option => option.selected).map(option => option.value)
     createUser(ids)
     createForm.reset();
 });
