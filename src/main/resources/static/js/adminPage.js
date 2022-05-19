@@ -1,9 +1,29 @@
+// Gets all existent roles
+const getRoles = () => {
+    fetch('http://localhost:8080/user/roles')
+        .then(response => {
+            return response.json();
+        })
+        .then(roles => {
+            let rolesSelections = document.querySelectorAll("#rolesCreate, #rolesPatch, #rolesDelete")
+            for (let i = 0; i < rolesSelections.length; i++) {
+                for (let j = 0; j < roles.length; j++) {
+                    rolesSelections[i].options.text = roles[j].role
+                    rolesSelections[i].options.value = roles[j].id
+                    rolesSelections[i].size = roles.length
+
+                    console.log(rolesSelections[i].options)
+                }
+            }
+        })
+}
+getRoles()
+
 // Creating table with Users
 const createTable = () => {
     fetch('http://localhost:8080/api/users')
         .then(response => {
             response.json().then(data => {
-                console.log(data)
                 if (data.length > 0) {
                     let temp = "";
                     data.forEach((user) => {
@@ -23,8 +43,8 @@ const createTable = () => {
                         } else {
                             temp += "<td>" + "No role" + "</td>";
                         }
-                        temp += "<td> <a type=\"button\" data-id=user.id class=\"btn btn-info text-white\" id='editButton' data-bs-toggle=\"modal\" data-bs-target=\"#editModal\">Edit</a></td>";
-                        temp += "<td> <a type=\"button\" data-id=user.id class=\"btn btn-danger\" id='deleteButton' data-bs-toggle=\"modal\" data-bs-target=\"#deleteModal\">Delete</a></td>";
+                        temp += "<td> <a type=\"button\" data-id=" + user.id + " class=\"btn btn-info text-white\" id='editButton' data-bs-toggle=\"modal\" data-bs-target=\"#editModal\">Edit</a></td>";
+                        temp += "<td> <a type=\"button\" data-id=" + user.id + " class=\"btn btn-danger\" id='deleteButton' data-bs-toggle=\"modal\" data-bs-target=\"#deleteModal\">Delete</a></td>";
                     })
                     document.querySelector("#userTableContent").innerHTML = temp;
                 }
