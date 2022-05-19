@@ -1,11 +1,7 @@
 package com.example.springbootdenispronin.controller;
 
 import com.example.springbootdenispronin.model.User;
-import com.example.springbootdenispronin.model.assembler.UserModelAssembler;
 import com.example.springbootdenispronin.service.UserService;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,56 +20,33 @@ import java.util.List;
 public class UserRestController {
 
     private final UserService userService;
-    //UserModelAssembler adds links to json response
-    private final UserModelAssembler assembler;
 
-    public UserRestController(UserService userService, UserModelAssembler assembler) {
+    public UserRestController(UserService userService) {
         this.userService = userService;
-        this.assembler = assembler;
     }
 
     @GetMapping
-    public CollectionModel<EntityModel<User>> all() {
-
-        List<User> users = userService.getAll();
-
-        return assembler.toCollectionModel(users);
+    public ResponseEntity<List<User>> all() {
+        return ResponseEntity.ok().body(userService.getAll());
     }
 
     @GetMapping("/{id}")
-    public EntityModel<User> one(@PathVariable Long id) {
-
-        User user = userService.getUserWithRolesById(id);
-
-        return assembler.toModel(user);
+    public ResponseEntity<User> one(@PathVariable Long id) {
+        return ResponseEntity.ok().body(userService.getUserWithRolesById(id));
     }
 
     @PostMapping
-    ResponseEntity<?> create(@RequestBody User user, @RequestParam Long[] roleIds) {
-
-        EntityModel<User> entityModel = assembler.toModel(userService.create(user, roleIds));
-
-        return ResponseEntity
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
-                .body(entityModel);
+    public ResponseEntity<User> create(@RequestBody User user, @RequestParam Long[] roleIds) {
+        return ResponseEntity.ok().body(userService.create(user, roleIds));
     }
 
     @PatchMapping("/{id}")
-    ResponseEntity<?> replaceEmployee(@RequestBody User user, @PathVariable Long[] id) {
-
-        User updatedEmployee = userService.update(user, id);
-
-        EntityModel<User> entityModel = assembler.toModel(updatedEmployee);
-
-        return ResponseEntity
-                .created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
-                .body(entityModel);
+    public ResponseEntity<User> replaceEmployee(@RequestBody User user, @PathVariable Long[] roleIds) {
+        return ResponseEntity.ok().body(userService.update(user, roleIds));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable(name = "id") Long id) {
-        userService.delete(id);
-
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<User> delete(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok().build();
     }
 }

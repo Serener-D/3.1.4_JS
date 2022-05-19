@@ -2,16 +2,13 @@ package com.example.springbootdenispronin.controller;
 
 import com.example.springbootdenispronin.model.User;
 import com.example.springbootdenispronin.service.UserService;
-import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
-
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Controller
 @RequestMapping("/user")
@@ -30,11 +27,7 @@ public class UserController {
 
     @GetMapping("/json")
     @ResponseBody
-    public EntityModel<User> edit(Principal principal) {
-        User user = userService.showByName(principal.getName());
-
-        return EntityModel.of(user,
-                linkTo(methodOn(UserController.class).edit(principal)).withSelfRel());
-
+    public ResponseEntity<User> edit(Principal principal) {
+        return ResponseEntity.ok().body(userService.showByName(principal.getName()));
     }
 }

@@ -20,10 +20,10 @@ const createTable = () => {
     fetch('http://localhost:8080/api/users')
         .then(response => {
             response.json().then(data => {
-                let userList = data._embedded.userList;
-                if (userList.length > 0) {
+                console.log(data)
+                if (data.length > 0) {
                     let temp = "";
-                    userList.forEach((user) => {
+                    data.forEach((user) => {
                         temp += "<tr>";
                         temp += "<td>" + user.id + "</td>";
                         temp += "<td>" + user.name + "</td>";
