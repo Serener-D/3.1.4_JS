@@ -109,6 +109,7 @@ const patchUser = (roleIds) => {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+            id: document.querySelector("#idPatch").value,
             name: document.querySelector("#namePatch").value,
             age: document.querySelector("#agePatch").value,
             password: document.querySelector("#passwordPatch").value,
