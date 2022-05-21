@@ -15,6 +15,4 @@ const populateSingleRowTable = () => {
             })
        })
 }
-
-populateHeader()
 populateSingleRowTable()
